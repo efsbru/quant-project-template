@@ -23,6 +23,7 @@ def strategy_simulator(path: str, strategy: StrategyInterface,
     Returns:
         pd.Series: Updated portfolio next day returns.
         pd.DataFrame: Updated weights database.
+        testando git
     """
 
     # If path does not exist, create it
