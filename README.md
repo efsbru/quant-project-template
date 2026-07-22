@@ -1,43 +1,49 @@
-# Template de Projetos
+# Quant Project Template
 
-Exemplo de estratégia para a disciplina PO-245.
+A modular Python template for quantitative finance, systematic investment research, and strategy backtesting.
 
-## Organização do repositório
+This repository provides a standardized structure for developing, testing, evaluating, and reporting quantitative investment strategies. The core idea is to separate the **strategy logic** from the **simulation engine** and the **performance reporting layer**.
 
-- [README.md](README.md): Apresenta o repositório
-- [strategy](strategy/): estratégia escrita pelo aluno
-- [main.ipynb](main.ipynb): Jupyter notebook com a documentação da sua estratégia, um exemplo de execução e a geração do relatório
-- [data_market](data_market/): módulo provedor de dados
-  - [datasets](datasets/): subdiretório com os dados disponibilizados para a estratégia
-- [libs](libs/): bibliotecas externas adicionais
-- [simulator](simulator/): código de apoio para simulação da estratégia
-- [requirements.txt](requirements.txt): bibliotecas dependentes
+Each strategy is implemented as a Python class responsible for deciding portfolio positions at a given point in time using only information available up to that date. The simulator then evaluates those positions over the next period, records realised returns, weights, turnover, transaction costs, and other diagnostics, and rolls forward across the full sample.
 
-## Primeiros passos
+After each simulation, the framework generates a QuantStats-style tear sheet to evaluate performance, risk, drawdowns, benchmark comparison, and rolling diagnostics.
 
-Recomendo primeiro criar um ambiente virtual (`venv`) utilizando `requirements.txt`. Este ambiente irá utilizar nossa versão corrigida do [QuantStat](#quantstat). Também recomendo utilizar vscode ou outra plataforma de desenvolvimento para facilitar o trabalho.
+---
 
-O principal arquivo é o Notebook `main.ipynb`, que deve conter:
+## Objective
 
-- uma breve explicação da estratégia;
-- a execução da estratégia;
-- relatório para comparar a estratégia com um benchmark.
+The objective of this project is to provide a clean and extensible research framework for systematic investment strategies.
 
-Note que a estratégia não é implementada no notebook. Apenas a invocamos no notebook para mantermos o código organizado.
-A estratégia é contida na pasta `strategy` bem como todas as funções auxiliares para sua execução.
+The template is designed to support:
 
-Rode o notebook por completo para entender a organização da solução.
+- quantitative research workflows;
+- systematic strategy simulation;
+- rolling backtests;
+- strategy comparison under a common protocol;
+- portfolio-weight tracking;
+- performance and risk diagnostics;
+- reproducible research reports;
+- QuantStats-style tear sheet generation.
 
-Antes de rodar qualquer estratégia, preciamos carregar os dados. Prefira concentrar o tratamento de dados de maneira isolada da estratégia. Aqui armazenamos os dados e funções na pasta `data_market`.
+The Markowitz minimum-variance portfolio included in the project should be interpreted only as a simple reference example of how to implement a strategy class and connect it to the simulator. It is not the main contribution of the repository.
 
-Por fim, o notebook irá abrir uma janela perguntando onde salvar o relatório. Salve em uma pasta e abra em um browser. Você pode comparar sua estratégia com qualquer ticker compatível com o Yahoo Finance.
+The main contribution is the **simulation and reporting architecture**.
 
-## QuantStat
+---
 
-Nosso template utiliza uma versão proprietári da biblioteca QuantStat disponível em https://github.com/fico-ita/quantstats/releases/tag/v0.0.63.
+## Research Workflow
 
-Este repo está configurado para utilizar a versão corrigida. Contudo, caso queira instalar manualmente, baixe o arquivo `.tar.gz` e instale via `pip`:
+The framework follows the standard research cycle below:
 
-```bash
-pip install quantstats-0.0.63.tar.gz
-```
+1. Load and validate market data.
+2. Implement a strategy as a Python class.
+3. At each decision date, the strategy chooses a position using only past and current information.
+4. The simulator applies this position to the next period.
+5. Realised returns, portfolio weights, turnover, costs, and diagnostics are stored.
+6. The process rolls forward until the end of the sample.
+7. A QuantStats-style tear sheet is generated for post-simulation analysis.
+
+Conceptually:
+
+```text
+Data → Strategy Class → Simulator → Returns/Weights/Diagnostics → Tear Sheet
